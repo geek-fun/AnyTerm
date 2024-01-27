@@ -1,0 +1,33 @@
+html,
+body,
+#app,
+.n-config-provider {
+  height: 100%;
+  width: 100%;
+}
+:root {
+  --theme-color: #36ad6a;
+  --theme-color-hover: #19934e;
+  --dange-color: #cd2158;
+}
+:root[theme='light'] {
+  --bg-color: #f1f1f1;
+  --text-color: #333;
+  --border-color: #d1d1d1;
+  --gray-color: #999;
+  --connect-list-hover-bg: rgba(0, 0, 0, 0.05);
+}
+:root[theme='dark'] {
+  --bg-color: #101014;
+  --text-color: #f1f1f1;
+  --border-color: #363b41;
+  --gray-color: #c1c1c1;
+  --connect-list-hover-bg: rgba(255, 255, 255, 0.05);
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: .3s;
+  font-size: 14px;
+}
