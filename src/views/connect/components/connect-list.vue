@@ -35,7 +35,7 @@
 import { storeToRefs } from 'pinia';
 import { useLang } from '../../../lang';
 import { Connection, useConnectionStore } from '../../../store';
-import { debug, CustomError } from '../../../common';
+import { CustomError } from '../../../common';
 
 const emits = defineEmits(['edit-connect']);
 
@@ -77,7 +77,7 @@ const establishConnect = async (connection: Connection) => {
       keepAliveOnHover: true,
       duration: 36000000,
     });
-    debug('connect error');
+    // debug('connect error');
   }
 };
 

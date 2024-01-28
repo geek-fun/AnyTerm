@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 
-const { sourceFileAPI } = window;
 export const useSourceFileStore = defineStore('sourceFileStore', {
   state(): { defaultFile: string } {
     return {
@@ -10,11 +9,11 @@ export const useSourceFileStore = defineStore('sourceFileStore', {
   getters: {},
   actions: {
     async readSourceFromFile() {
-      this.defaultFile = await sourceFileAPI.readFile();
+      // this.defaultFile = await sourceFileAPI.readFile();
     },
     async saveSourceToFile(content: string) {
       this.defaultFile = content;
-      await sourceFileAPI.saveFile(content);
+      // await sourceFileAPI.saveFile(content);
     },
   },
 });
