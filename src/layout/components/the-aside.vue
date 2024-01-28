@@ -13,9 +13,7 @@
           }"
           @click="navClick(item)"
         >
-          <n-icon size="26">
-            <component :is="item.icon" />
-          </n-icon>
+          <n-icon size="26"> <v-icon :name="item.icon" /> </n-icon>
         </div>
       </the-aside-icon>
     </div>
@@ -42,16 +40,10 @@
 </template>
 
 <script setup lang="ts">
-import {
-  OiDatabase,
-  BiFolder2Open,
-  BiGithub,
-  IoSettingsOutline,
-  FaRegularUserCircle,
-  CoHistory,
-} from 'oh-vue-icons/icons';
+import { open } from '@tauri-apps/api/shell';
 import { useAppStore } from '../../store';
 import theAsideIcon from './the-aside-icon.vue';
+
 const router = useRouter();
 const route = useRoute();
 const appStore = useAppStore();
@@ -61,28 +53,28 @@ const mainNavList = ref([
     id: 'connect',
     path: '/connect',
     name: 'connect',
-    icon: markRaw(OiDatabase),
+    icon: 'bi-hdd-stack-fill',
     isLink: false,
   },
   {
     id: 'file',
     path: '/',
     name: 'file',
-    icon: markRaw(BiFolder2Open),
+    icon: 'co-folder',
     isLink: false,
   },
   {
     id: 'history',
     path: '/history',
     name: 'history',
-    icon: markRaw(CoHistory),
+    icon: 'co-history',
     isLink: false,
   },
   {
     id: 'github',
     path: '',
     name: 'github',
-    icon: markRaw(BiGithub),
+    icon: 'bi-github',
     isLink: true,
   },
 ]);
@@ -91,14 +83,14 @@ const samllNavList = ref([
   {
     path: '/',
     id: 'user',
-    icon: markRaw(FaRegularUserCircle),
+    icon: 'fa-regular-user-circle',
     name: 'user',
     isLink: false,
   },
   {
     path: '/setting',
     id: 'setting',
-    icon: markRaw(IoSettingsOutline),
+    icon: 'io-settings-outline',
     name: 'setting',
     isLink: false,
   },
@@ -107,7 +99,7 @@ const samllNavList = ref([
 interface RouteItem {
   path: string;
   id: string;
-  icon: Component;
+  icon: string;
   name: string;
   isLink: boolean;
 }
@@ -117,7 +109,7 @@ const isActive = (item: RouteItem) => {
 // nav click handler method
 const navClick = (item: RouteItem) => {
   if (item.isLink && item.id === 'github') {
-    window.electronAPI.openGitHub();
+    open('https://github.com/geek-fun/AnyTerm');
   } else {
     if (route.path === item.path) {
       appStore.setConnectPannel();

@@ -11,7 +11,7 @@
     >
       <template #header-extra>
         <n-icon size="26" @click="closeModal">
-          <io-close-outline />
+          <v-icon name="io-close-outline" />
         </n-icon>
       </template>
       <div class="modal-content">
@@ -112,7 +112,6 @@
 </template>
 
 <script setup lang="ts">
-import { IoCloseOutline } from 'oh-vue-icons/icons';
 import { CustomError } from '../../../common';
 import { Connection, useConnectionStore } from '../../../store';
 import { useLang } from '../../../lang';

@@ -2,9 +2,7 @@
   <div class="connect-container">
     <div v-if="isPannelOpen" class="connect-list">
       <div class="add-connect" @click="addConnect">
-        <n-icon size="28">
-          <Add />
-        </n-icon>
+        <v-icon name="md-add" />
         <span>{{ $t('connection.new') }}</span>
       </div>
       <connect-list @edit-connect="editConnectHandler" />
@@ -38,7 +36,6 @@ onMounted(() => {
     appStore.setConnectPannel();
   }
 });
-
 const addConnect = () => connectModalRef.value.showMedal();
 
 const editConnectHandler = (row: object) => {

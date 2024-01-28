@@ -2,7 +2,7 @@
   <div class="history-empty-content">
     <div class="icon-box">
       <n-icon>
-        <RiFileSearchLine />
+        <v-icon name="ri-file-search-line" />
       </n-icon>
     </div>
     <div class="main-desc">{{ $t('history.empty') }}</div>
@@ -10,9 +10,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { RiFileSearchLine } from 'oh-vue-icons/icons';
-</script>
+<script lang="ts" setup></script>
 
 <style lang="scss" scoped>
 .history-empty-content {

@@ -21,7 +21,7 @@
               @select="(args: number) => handleSelect(args, con)"
             >
               <n-icon size="20">
-                <RiMore2Fill />
+                <v-icon name="ri-more-2-fill" />
               </n-icon>
             </n-dropdown>
           </div>
@@ -32,7 +32,6 @@
 </template>
 
 <script setup lang="ts">
-import { RiMore2Fill } from 'oh-vue-icons/icons';
 import { storeToRefs } from 'pinia';
 import { useLang } from '../../../lang';
 import { Connection, useConnectionStore } from '../../../store';

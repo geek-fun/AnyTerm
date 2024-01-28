@@ -45,7 +45,6 @@ import darkImg from '../../../assets/img/theme-dark.png';
 import autoImg from '../../../assets/img/theme-auto.png';
 import { useAppStore } from '../../../store';
 import { lang } from '../../../lang';
-import { CoCheckCircle } from 'oh-vue-icons/icons';
 
 const themeTypeList = [
   {
