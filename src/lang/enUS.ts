@@ -54,4 +54,11 @@ export const enUS = {
     empty: 'No history yet',
     emptyDesc: 'History of queries will appear here as you execute Scans and Queries',
   },
+  secret: {
+    new: 'New Secret',
+    name: 'Key Name',
+    type: 'Key Type',
+    priKey: 'Private Key',
+    pubKey: 'Public Key',
+  },
 };

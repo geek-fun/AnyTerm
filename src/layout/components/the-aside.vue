@@ -30,9 +30,7 @@
           }"
           @click="navClick(item)"
         >
-          <n-icon size="26">
-            <component :is="item.icon" />
-          </n-icon>
+          <n-icon size="26"> <v-icon :name="item.icon" /> </n-icon>
         </div>
       </the-aside-icon>
     </div>
@@ -64,6 +62,13 @@ const mainNavList = ref([
     isLink: false,
   },
   {
+    id: 'secret',
+    path: '/secret',
+    name: 'Secret',
+    icon: 'gi-house-keys',
+    isLink: false,
+  },
+  {
     id: 'history',
     path: '/history',
     name: 'history',
@@ -90,7 +95,7 @@ const samllNavList = ref([
   {
     path: '/setting',
     id: 'setting',
-    icon: 'io-settings-outline',
+    icon: 'co-settings',
     name: 'setting',
     isLink: false,
   },

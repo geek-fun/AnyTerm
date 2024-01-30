@@ -19,7 +19,7 @@
             <div class="item-desc">{{ $t(`setting.${item.name}`) }}</div>
             <div class="item-checked">
               <n-icon :size="18" color="#fff">
-                <CoCheckCircle />
+                <v-icon name="bi-check-lg" />
               </n-icon>
             </div>
           </div>

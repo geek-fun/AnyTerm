@@ -10,16 +10,17 @@ import {
   MdAdd,
   RiMore2Fill,
   IoCloseOutline,
-  CoCheckCircle,
   RiFileSearchLine,
   OiDatabase,
   BiFolder2Open,
   BiGithub,
-  IoSettingsOutline,
+  CoSettings,
   FaRegularUserCircle,
   CoHistory,
   BiHddStackFill,
   CoFolder,
+  BiCheckLg,
+  GiHouseKeys,
 } from 'oh-vue-icons/icons';
 
 const app = createApp(App);
@@ -27,16 +28,17 @@ addIcons(
   MdAdd,
   RiMore2Fill,
   IoCloseOutline,
-  CoCheckCircle,
+  BiCheckLg,
   RiFileSearchLine,
   OiDatabase,
   BiFolder2Open,
   BiGithub,
-  IoSettingsOutline,
+  CoSettings,
   FaRegularUserCircle,
   CoHistory,
   BiHddStackFill,
   CoFolder,
+  GiHouseKeys,
 );
 app.component('VIcon', OhVueIcon);
 

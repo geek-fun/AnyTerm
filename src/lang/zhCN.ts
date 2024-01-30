@@ -54,4 +54,11 @@ export const zhCN = {
     empty: '无历史记录',
     emptyDesc: '执行扫描和查询时，查询历史记录将显示在此处',
   },
+  secret: {
+    new: '新建密钥',
+    name: '名称',
+    type: '类型',
+    priKey: '私钥',
+    pubKey: '公钥',
+  },
 };
