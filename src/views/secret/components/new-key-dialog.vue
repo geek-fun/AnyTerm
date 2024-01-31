@@ -28,6 +28,12 @@
                 <n-input v-model:value="formData.name" clearable :placeholder="$t('secret.name')" />
               </n-form-item>
             </n-grid-item>
+          </n-grid>
+        </n-form>
+      </div>
+      <n-tabs type="line" animated>
+        <n-tab-pane name="sshKeys" tab="SSH Keys">
+          <n-grid cols="8" item-responsive responsive="screen" x-gap="10" y-gap="10">
             <n-grid-item span="8">
               <n-form-item :label="$t('secret.priKey')" path="priKey">
                 <n-input
@@ -38,6 +44,8 @@
                 />
               </n-form-item>
             </n-grid-item>
+          </n-grid>
+          <n-grid cols="8" item-responsive responsive="screen" x-gap="10" y-gap="10">
             <n-grid-item span="8">
               <n-form-item :label="$t('secret.pubKey')" path="pubKey">
                 <n-input
@@ -50,8 +58,34 @@
               </n-form-item>
             </n-grid-item>
           </n-grid>
-        </n-form>
-      </div>
+        </n-tab-pane>
+        <n-tab-pane name="usernamePassword" tab="Username/Password">
+          <n-grid cols="8" item-responsive responsive="screen" x-gap="10" y-gap="10">
+            <n-grid-item span="8">
+              <n-form-item :label="$t('secret.name')" path="username">
+                <n-input
+                  v-model:value="formData.username"
+                  clearable
+                  :placeholder="$t('secret.username')"
+                />
+              </n-form-item>
+            </n-grid-item>
+          </n-grid>
+          <n-grid cols="8" item-responsive responsive="screen" x-gap="10" y-gap="10">
+            <n-grid-item span="8">
+              <n-form-item :label="$t('secret.password')" path="password">
+                <n-input
+                  v-model:value="formData.password"
+                  type="password"
+                  show-password-on="click"
+                  clearable
+                  :placeholder="$t('secret.password')"
+                />
+              </n-form-item>
+            </n-grid-item>
+          </n-grid>
+        </n-tab-pane>
+      </n-tabs>
       <template #footer>
         <div class="card-footer">
           <div class="left">
@@ -118,7 +152,7 @@ const message = useMessage();
 
 const showMedal = (secret: Secret | null) => {
   showModal.value = true;
-  if (secret) {
+  if (secret?.id) {
     formData.value = secret;
     modalTitle.value = lang.t('secret.edit');
   }
@@ -126,7 +160,7 @@ const showMedal = (secret: Secret | null) => {
 
 const closeModal = () => {
   if (formData.value) {
-    formData.value = null;
+    formData.value = defaultFormData;
   }
   showModal.value = false;
 };

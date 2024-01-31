@@ -61,6 +61,8 @@ export const enUS = {
     type: 'Key Type',
     priKey: 'Private Key',
     pubKey: 'Public Key',
+    username: 'Username',
+    password: 'Password',
     verify: 'Verify',
     edit: 'Edit Secret',
     formValidation: {

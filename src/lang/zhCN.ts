@@ -61,6 +61,8 @@ export const zhCN = {
     type: '类型',
     priKey: '私钥',
     pubKey: '公钥',
+    username: '用户名',
+    password: '密码',
     verify: '验证',
     edit: '修改密钥',
     formValidation: {
