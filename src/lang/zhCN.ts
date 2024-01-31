@@ -6,6 +6,7 @@ export const zhCN = {
     github: 'GitHub',
     user: '用户',
     setting: '设置',
+    secret: '密钥',
   },
   setting: {
     basic: '通用设置',
@@ -60,5 +61,14 @@ export const zhCN = {
     type: '类型',
     priKey: '私钥',
     pubKey: '公钥',
+    verify: '验证',
+    edit: '修改密钥',
+    formValidation: {
+      nameRequired: '请输入连接名称',
+      priKeyRequired: '请输入私钥',
+      pubKeyRequired: '请输入公钥',
+      usernameRequired: '请输入用户名',
+      passwordRequired: '请输入密码',
+    },
   },
 };

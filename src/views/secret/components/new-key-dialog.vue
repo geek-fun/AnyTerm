@@ -6,7 +6,7 @@
       aria-modal="true"
       :title="modalTitle"
       :bordered="false"
-      class="add-connect-modal-card"
+      class="secret-modal-card"
       @mask-click="closeModal"
     >
       <template #header-extra>
@@ -33,15 +33,17 @@
                 <n-input
                   v-model:value="formData.priKey"
                   clearable
+                  type="textarea"
                   :placeholder="$t('secret.priKey')"
                 />
               </n-form-item>
             </n-grid-item>
             <n-grid-item span="8">
               <n-form-item :label="$t('secret.pubKey')" path="pubKey">
-                <n-input-number
+                <n-input
                   v-model:value="formData.pubKey"
                   clearable
+                  type="textarea"
                   :show-button="false"
                   :placeholder="$t('secret.pubKey')"
                 />
@@ -57,9 +59,9 @@
               type="info"
               :loading="testLoading"
               :disabled="!validationPassed"
-              @click="testConnect"
+              @click="verify"
             >
-              {{ $t('connection.test') }}
+              {{ $t('secret.verify') }}
             </n-button>
           </div>
           <div class="right">
@@ -68,7 +70,7 @@
               type="primary"
               :loading="saveLoading"
               :disabled="!validationPassed"
-              @click="saveConnect"
+              @click="saveSecret"
             >
               {{ $t('dialogOps.confirm') }}
             </n-button>
@@ -81,17 +83,16 @@
 
 <script setup lang="ts">
 import { CustomError } from '../../../common';
-import { Connection, Secret, useConnectionStore } from '../../../store';
+import { Secret } from '../../../store';
 import { useLang } from '../../../lang';
 import { FormValidationError } from 'naive-ui';
 
-const { testConnection, saveConnection } = useConnectionStore();
 const lang = useLang();
 // DOM
 const connectFormRef = ref();
 
 const showModal = ref(false);
-const modalTitle = ref(lang.t('connection.add'));
+const modalTitle = ref(lang.t('secret.new'));
 const testLoading = ref(false);
 const saveLoading = ref(false);
 type SecretInput = Omit<Secret, 'id' | 'type'>;
@@ -111,39 +112,23 @@ const formRules = reactive({
       trigger: ['input', 'blur'],
     },
   ],
-  host: [
-    {
-      required: true,
-      renderMessage: () => lang.t('connection.formValidation.hostRequired'),
-      trigger: ['input', 'blur'],
-    },
-  ],
-  port: [
-    {
-      required: true,
-      renderMessage: () => lang.t('connection.formValidation.portRequired'),
-      trigger: ['input', 'blur'],
-    },
-  ],
 });
+
 const message = useMessage();
 
-const cleanUp = () => {
-  formData.value = defaultFormData;
-  modalTitle.value = lang.t('connection.add');
-};
-const showMedal = (con: Connection | null) => {
-  cleanUp();
+const showMedal = (secret: Secret | null) => {
   showModal.value = true;
-  if (con) {
-    formData.value = con;
-    modalTitle.value = lang.t('connection.edit');
+  if (secret) {
+    formData.value = secret;
+    modalTitle.value = lang.t('secret.edit');
   }
 };
 
 const closeModal = () => {
+  if (formData.value) {
+    formData.value = null;
+  }
   showModal.value = false;
-  cleanUp();
 };
 
 const validationPassed = watch(formData.value, async () => {
@@ -154,11 +139,12 @@ const validationPassed = watch(formData.value, async () => {
   }
 });
 
-const testConnect = async (event: MouseEvent) => {
+const verify = async (event: MouseEvent) => {
   event.preventDefault();
   testLoading.value = !testLoading.value;
   try {
-    await testConnection({ ...formData.value });
+    // @TODO: verify secret
+    // await testConnection({ ...formData.value });
     message.success(lang.t('connection.testSuccess'));
   } catch (e) {
     const error = e as CustomError;
@@ -172,10 +158,11 @@ const testConnect = async (event: MouseEvent) => {
   }
 };
 
-const saveConnect = async (event: MouseEvent) => {
+const saveSecret = async (event: MouseEvent) => {
   event.preventDefault();
   saveLoading.value = !saveLoading.value;
-  saveConnection(formData.value);
+  // @TODO: save secret
+  // saveConnection(formData.value);
   saveLoading.value = !saveLoading.value;
   showModal.value = false;
 };
@@ -183,7 +170,7 @@ const saveConnect = async (event: MouseEvent) => {
 defineExpose({ showMedal });
 </script>
 <style lang="scss">
-.add-connect-modal-card {
+.secret-modal-card {
   .n-card-header {
     .n-card-header__extra {
       cursor: pointer;

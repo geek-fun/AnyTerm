@@ -64,7 +64,7 @@ const mainNavList = ref([
   {
     id: 'secret',
     path: '/secret',
-    name: 'Secret',
+    name: 'secret',
     icon: 'gi-house-keys',
     isLink: false,
   },

@@ -6,6 +6,7 @@ export const enUS = {
     github: 'GitHub',
     user: 'User',
     setting: 'Setting',
+    secret: 'Secret',
   },
   setting: {
     basic: 'Basic',
@@ -60,5 +61,14 @@ export const enUS = {
     type: 'Key Type',
     priKey: 'Private Key',
     pubKey: 'Public Key',
+    verify: 'Verify',
+    edit: 'Edit Secret',
+    formValidation: {
+      nameRequired: 'Name is required',
+      priKeyRequired: 'Private Key is required',
+      pubKeyRequired: 'Public Key is required',
+      usernameRequired: 'Username is required',
+      passwordRequired: 'Password is required',
+    },
   },
 };
