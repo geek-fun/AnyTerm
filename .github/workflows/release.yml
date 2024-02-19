@@ -47,13 +47,24 @@ jobs:
         id: changelog
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Tag Release
+        uses: jaywcjlove/create-tag-action@main
+        id: tag_release
+        with:
+          prerelease: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            ${{ steps.changelog.outputs.compareurl }}
+
+            ${{ steps.changelog.outputs.changelog }}
       - name: Release App
         uses: tauri-apps/tauri-action@v0
+        if: steps.tag_release.outputs.successful
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
-          releaseName: 'v__VERSION__'
+          tagName: ${{ steps.tag_release.outputs.version }}
+          releaseName: ${{ steps.tag_release.outputs.version }}
           releaseBody: |
             ${{ steps.changelog.outputs.compareurl }}
 
