@@ -5,7 +5,7 @@ export enum SecretType {
   PASSWORD = 'PASSWORD',
 }
 export type Secret = {
-  id?: number;
+  id?: string;
   name: string;
   type: SecretType;
   priKey?: string;

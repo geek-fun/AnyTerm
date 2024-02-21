@@ -106,7 +106,6 @@
 </template>
 
 <script setup lang="ts">
-import { CustomError } from '../../../common';
 import { Secret, useSecretStore } from '../../../store';
 import { useLang } from '../../../lang';
 import { FormValidationError } from 'naive-ui';
@@ -120,7 +119,7 @@ const connectFormRef = ref();
 
 const showModal = ref(false);
 const modalTitle = ref(lang.t('secret.new'));
-const testLoading = ref(false);
+// const testLoading = ref(false);
 const saveLoading = ref(false);
 type SecretInput = Omit<Secret, 'id' | 'type'>;
 const defaultFormData = {
@@ -141,7 +140,7 @@ const formRules = reactive({
   ],
 });
 
-const message = useMessage();
+// const message = useMessage();
 
 const showMedal = (secret: Secret | null) => {
   showModal.value = true;
@@ -166,25 +165,25 @@ const validationPassed = watch(formData.value, async () => {
   }
 });
 
-const verify = async (event: MouseEvent) => {
-  event.preventDefault();
-  testLoading.value = !testLoading.value;
-  try {
-    // @TODO: verify secret
-    // await testConnection({ ...formData.value });
-    message.success(lang.t('connection.testSuccess'));
-  } catch (e) {
-    const error = e as CustomError;
-    message.error(`status: ${error.status}, details: ${error.details}`, {
-      closable: true,
-      keepAliveOnHover: true,
-      duration: 10000,
-    });
-  } finally {
-    testLoading.value = !testLoading.value;
-  }
-};
-
+// const verify = async (event: MouseEvent) => {
+//   event.preventDefault();
+//   testLoading.value = !testLoading.value;
+//   try {
+//     // @TODO: verify secret
+//     // await testConnection({ ...formData.value });
+//     message.success(lang.t('connection.testSuccess'));
+//   } catch (e) {
+//     const error = e as CustomError;
+//     message.error(`status: ${error.status}, details: ${error.details}`, {
+//       closable: true,
+//       keepAliveOnHover: true,
+//       duration: 10000,
+//     });
+//   } finally {
+//     testLoading.value = !testLoading.value;
+//   }
+// };
+//
 const submitSaveSecret = async (event: MouseEvent) => {
   event.preventDefault();
   saveLoading.value = !saveLoading.value;
