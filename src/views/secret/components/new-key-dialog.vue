@@ -88,23 +88,13 @@
       </n-tabs>
       <template #footer>
         <div class="card-footer">
-          <div class="left">
-            <n-button
-              type="info"
-              :loading="testLoading"
-              :disabled="!validationPassed"
-              @click="verify"
-            >
-              {{ $t('secret.verify') }}
-            </n-button>
-          </div>
           <div class="right">
             <n-button @click="closeModal">{{ $t('dialogOps.cancel') }}</n-button>
             <n-button
               type="primary"
               :loading="saveLoading"
               :disabled="!validationPassed"
-              @click="saveSecret"
+              @click="submitSaveSecret"
             >
               {{ $t('dialogOps.confirm') }}
             </n-button>
@@ -117,9 +107,12 @@
 
 <script setup lang="ts">
 import { CustomError } from '../../../common';
-import { Secret } from '../../../store';
+import { Secret, useSecretStore } from '../../../store';
 import { useLang } from '../../../lang';
 import { FormValidationError } from 'naive-ui';
+
+const secretStore = useSecretStore();
+const { saveSecret } = secretStore;
 
 const lang = useLang();
 // DOM
@@ -192,11 +185,10 @@ const verify = async (event: MouseEvent) => {
   }
 };
 
-const saveSecret = async (event: MouseEvent) => {
+const submitSaveSecret = async (event: MouseEvent) => {
   event.preventDefault();
   saveLoading.value = !saveLoading.value;
-  // @TODO: save secret
-  // saveConnection(formData.value);
+  saveSecret({ ...formData.value } as Secret);
   saveLoading.value = !saveLoading.value;
   showModal.value = false;
 };

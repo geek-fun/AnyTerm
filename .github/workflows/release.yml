@@ -65,7 +65,7 @@ jobs:
         with:
           tagName: ${{ steps.tag_release.outputs.version }}
           releaseName: ${{ steps.tag_release.outputs.version }}
-          appVersion: ${{ steps.tag_release.outputs.version }}
+          appVersion: "${{ steps.tag_release.outputs.versionNumber }}"
           releaseBody: |
             ${{ steps.changelog.outputs.compareurl }}
 

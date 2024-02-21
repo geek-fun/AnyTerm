@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-
+import { ulid } from 'ulidx';
 export enum SecretType {
   SSH_KEY = 'SSH_KEY',
   PASSWORD = 'PASSWORD',
@@ -22,5 +22,15 @@ export const useSecretStore = defineStore('secretStore', {
     };
   },
   getters: {},
-  actions: {},
+  actions: {
+    saveSecret(secret: Secret) {
+      if (!secret.id) {
+        secret.id = ulid();
+        this.secrets.push(secret);
+      } else {
+        const index = this.secrets.findIndex(s => s.id === secret.id);
+        this.secrets[index] = secret;
+      }
+    },
+  },
 });
