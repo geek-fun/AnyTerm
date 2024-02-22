@@ -1,5 +1,5 @@
 <template>
-  <n-modal v-model:show="showModal">
+  <n-modal v-model:show="showModal" @esc="closeModal" @mask-click="closeModal">
     <n-card
       style="width: 600px"
       role="dialog"
@@ -7,7 +7,6 @@
       :title="modalTitle"
       :bordered="false"
       class="secret-modal-card"
-      @mask-click="closeModal"
     >
       <template #header-extra>
         <n-icon size="26" @click="closeModal">
@@ -16,7 +15,7 @@
       </template>
       <div class="modal-content">
         <n-form
-          ref="connectFormRef"
+          ref="secretFormRef"
           label-placement="left"
           label-width="100"
           :model="formData"
@@ -31,7 +30,7 @@
           </n-grid>
         </n-form>
       </div>
-      <n-tabs type="line" animated>
+      <n-tabs type="line" animated class="secret-tabs">
         <n-tab-pane name="sshKeys" tab="SSH Keys">
           <n-grid cols="8" item-responsive responsive="screen" x-gap="10" y-gap="10">
             <n-grid-item span="8">
@@ -115,7 +114,7 @@ const { saveSecret } = secretStore;
 
 const lang = useLang();
 // DOM
-const connectFormRef = ref();
+const secretFormRef = ref();
 
 const showModal = ref(false);
 const modalTitle = ref(lang.t('secret.new'));
@@ -151,39 +150,20 @@ const showMedal = (secret: Secret | null) => {
 };
 
 const closeModal = () => {
-  if (formData.value) {
-    formData.value = defaultFormData;
-  }
+  formData.value = defaultFormData;
   showModal.value = false;
 };
 
 const validationPassed = watch(formData.value, async () => {
   try {
-    return await connectFormRef.value?.validate((errors: Array<FormValidationError>) => !errors);
+    return await secretFormRef.value?.validate((errors: Array<FormValidationError>) => !errors);
   } catch (e) {
     return false;
   }
 });
 
-// const verify = async (event: MouseEvent) => {
-//   event.preventDefault();
-//   testLoading.value = !testLoading.value;
-//   try {
-//     // @TODO: verify secret
-//     // await testConnection({ ...formData.value });
-//     message.success(lang.t('connection.testSuccess'));
-//   } catch (e) {
-//     const error = e as CustomError;
-//     message.error(`status: ${error.status}, details: ${error.details}`, {
-//       closable: true,
-//       keepAliveOnHover: true,
-//       duration: 10000,
-//     });
-//   } finally {
-//     testLoading.value = !testLoading.value;
-//   }
-// };
-//
+// @TODO: verify secret
+
 const submitSaveSecret = async (event: MouseEvent) => {
   event.preventDefault();
   saveLoading.value = !saveLoading.value;
@@ -200,6 +180,9 @@ defineExpose({ showMedal });
     .n-card-header__extra {
       cursor: pointer;
     }
+  }
+  .secret-tabs {
+    min-height: 320px;
   }
   .n-card__footer {
     .card-footer {

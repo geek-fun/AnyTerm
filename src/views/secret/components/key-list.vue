@@ -13,6 +13,16 @@ const { secrets } = toRefs(secretStore);
 </script>
 
 <style lang="scss" scoped>
+.secret-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px;
+}
+.secret-list .n-card:hover {
+  cursor: pointer;
+}
+
 .n-card {
   max-width: 300px;
 }
