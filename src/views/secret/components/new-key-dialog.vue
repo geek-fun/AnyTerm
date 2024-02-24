@@ -30,8 +30,8 @@
           </n-grid>
         </n-form>
       </div>
-      <n-tabs type="line" animated class="secret-tabs">
-        <n-tab-pane name="sshKeys" tab="SSH Keys">
+      <n-tabs v-model:value="formData.type" type="line" animated class="secret-tabs">
+        <n-tab-pane :name="SecretType.SSH_KEY" tab="SSH Keys">
           <n-grid cols="8" item-responsive responsive="screen" x-gap="10" y-gap="10">
             <n-grid-item span="8">
               <n-form-item :label="$t('secret.priKey')" path="priKey">
@@ -58,7 +58,7 @@
             </n-grid-item>
           </n-grid>
         </n-tab-pane>
-        <n-tab-pane name="usernamePassword" tab="Username/Password">
+        <n-tab-pane :name="SecretType.PASSWORD" tab="Username/Password">
           <n-grid cols="8" item-responsive responsive="screen" x-gap="10" y-gap="10">
             <n-grid-item span="8">
               <n-form-item :label="$t('secret.name')" path="username">
@@ -105,7 +105,7 @@
 </template>
 
 <script setup lang="ts">
-import { Secret, useSecretStore } from '../../../store';
+import { Secret, SecretType, useSecretStore } from '../../../store';
 import { useLang } from '../../../lang';
 import { FormValidationError } from 'naive-ui';
 
@@ -120,13 +120,14 @@ const showModal = ref(false);
 const modalTitle = ref(lang.t('secret.new'));
 // const testLoading = ref(false);
 const saveLoading = ref(false);
-type SecretInput = Omit<Secret, 'id' | 'type'>;
+type SecretInput = Omit<Secret, 'id'>;
 const defaultFormData = {
   name: '',
   priKey: '',
   pubKey: '',
   username: '',
   password: '',
+  type: SecretType.SSH_KEY,
 };
 const formData = ref<SecretInput>(defaultFormData);
 const formRules = reactive({
@@ -143,7 +144,7 @@ const formRules = reactive({
 
 const showMedal = (secret: Secret | null) => {
   showModal.value = true;
-  if (secret?.id) {
+  if (secret) {
     formData.value = secret;
     modalTitle.value = lang.t('secret.edit');
   }
