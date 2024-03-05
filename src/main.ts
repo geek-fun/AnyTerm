@@ -21,6 +21,7 @@ import {
   BiCheckLg,
   GiHouseKeys,
   FaTerminal,
+  MdMorehoriz,
 } from 'oh-vue-icons/icons';
 
 const app = createApp(App);
@@ -39,6 +40,7 @@ addIcons(
   CoFolder,
   GiHouseKeys,
   FaTerminal,
+  MdMorehoriz,
 );
 app.component('VIcon', OhVueIcon);
 

@@ -32,5 +32,9 @@ export const useSecretStore = defineStore('secretStore', {
         this.secrets[index] = secret;
       }
     },
+    removeSecret(secret: Secret) {
+      const index = this.secrets.findIndex(s => s.id === secret.id);
+      this.secrets.splice(index, 1);
+    },
   },
 });

@@ -72,5 +72,8 @@ export const zhCN = {
       usernameRequired: '请输入用户名',
       passwordRequired: '请输入密码',
     },
+    operations: {
+      remove: '删除',
+    },
   },
 };

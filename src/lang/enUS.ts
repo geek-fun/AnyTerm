@@ -72,5 +72,8 @@ export const enUS = {
       usernameRequired: 'Username is required',
       passwordRequired: 'Password is required',
     },
+    operations: {
+      remove: 'Remove',
+    },
   },
 };
