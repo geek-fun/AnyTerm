@@ -129,7 +129,7 @@ const defaultFormData = {
   password: '',
   type: SecretType.SSH_KEY,
 };
-const formData = ref<SecretInput>(defaultFormData);
+const formData = ref<SecretInput>({ ...defaultFormData });
 const formRules = reactive({
   name: [
     {
@@ -151,7 +151,7 @@ const showMedal = (secret: Secret | null) => {
 };
 
 const closeModal = () => {
-  formData.value = defaultFormData;
+  formData.value = { ...defaultFormData };
   showModal.value = false;
 };
 
@@ -169,8 +169,8 @@ const submitSaveSecret = async (event: MouseEvent) => {
   event.preventDefault();
   saveLoading.value = !saveLoading.value;
   saveSecret({ ...formData.value } as Secret);
+  closeModal();
   saveLoading.value = !saveLoading.value;
-  showModal.value = false;
 };
 
 defineExpose({ showMedal });
