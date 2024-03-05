@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { ulid } from 'ulidx';
+import { secretClient } from './clients/secretClient.ts';
 export enum SecretType {
   SSH_KEY = 'SSH_KEY',
   PASSWORD = 'PASSWORD',
@@ -23,7 +24,11 @@ export const useSecretStore = defineStore('secretStore', {
   },
   getters: {},
   actions: {
-    saveSecret(secret: Secret) {
+    async loadSecrets() {
+      const secrets = (await secretClient.getSecrets()) || [];
+      this.secrets = secrets as Secret[];
+    },
+    async saveSecret(secret: Secret) {
       if (!secret.id) {
         secret.id = ulid();
         this.secrets.push(secret);
@@ -31,10 +36,12 @@ export const useSecretStore = defineStore('secretStore', {
         const index = this.secrets.findIndex(s => s.id === secret.id);
         this.secrets[index] = secret;
       }
+      await secretClient.saveSecret(secret);
     },
-    removeSecret(secret: Secret) {
+    async removeSecret(secret: Secret) {
       const index = this.secrets.findIndex(s => s.id === secret.id);
       this.secrets.splice(index, 1);
+      await secretClient.removeSecret(secret);
     },
   },
 });

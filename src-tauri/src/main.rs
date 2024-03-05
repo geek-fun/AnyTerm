@@ -10,6 +10,7 @@ use tauri::Manager;
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_store::Builder::default().build())
         .setup(|app| {
             #[cfg(debug_assertions)] // only include this code on debug builds
             {

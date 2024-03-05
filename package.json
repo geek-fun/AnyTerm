@@ -20,6 +20,7 @@
     "oh-vue-icons": "^1.0.0-rc3",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
+    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#v1",
     "ulidx": "^2.3.0",
     "vue": "^3.3.4",
     "vue-i18n": "^9.9.0",

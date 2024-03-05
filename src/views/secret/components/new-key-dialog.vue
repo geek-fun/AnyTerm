@@ -168,7 +168,7 @@ const validationPassed = watch(formData.value, async () => {
 const submitSaveSecret = async (event: MouseEvent) => {
   event.preventDefault();
   saveLoading.value = !saveLoading.value;
-  saveSecret({ ...formData.value } as Secret);
+  await saveSecret({ ...formData.value } as Secret);
   closeModal();
   saveLoading.value = !saveLoading.value;
 };

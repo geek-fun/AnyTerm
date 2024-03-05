@@ -33,7 +33,7 @@ import { useLang } from '../../../lang';
 const lang = useLang();
 const secretStore = useSecretStore();
 
-const { secrets } = toRefs(secretStore);
+const [{ loadSecrets }, { secrets }] = [secretStore, toRefs(secretStore)];
 
 const editKeyDialogRef = ref();
 const editSecret = (secret: Secret) => {
@@ -50,6 +50,7 @@ const handleSelect = (key: number, secret: Secret) => {
 const deleteSecret = (secret: Secret) => {
   secretStore.removeSecret(secret);
 };
+loadSecrets();
 </script>
 
 <style lang="scss" scoped>
