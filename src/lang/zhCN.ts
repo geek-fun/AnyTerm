@@ -1,6 +1,6 @@
 export const zhCN = {
   aside: {
-    connect: '连接',
+    ssh: 'SSH连接',
     file: '文件',
     history: '历史',
     github: 'GitHub',
@@ -17,9 +17,9 @@ export const zhCN = {
     dark: '暗黑主题',
     light: '月白主题',
   },
-  connection: {
-    new: '新建连接',
-    test: '测试连接',
+  ssh: {
+    new: '新建SSH连接',
+    test: '测试SSH连接',
     name: '连接名称',
     host: '主机地址',
     port: '端口号',

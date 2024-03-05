@@ -17,10 +17,10 @@ import {
   CoSettings,
   FaRegularUserCircle,
   CoHistory,
-  BiHddStackFill,
   CoFolder,
   BiCheckLg,
   GiHouseKeys,
+  FaTerminal,
 } from 'oh-vue-icons/icons';
 
 const app = createApp(App);
@@ -36,9 +36,9 @@ addIcons(
   CoSettings,
   FaRegularUserCircle,
   CoHistory,
-  BiHddStackFill,
   CoFolder,
   GiHouseKeys,
+  FaTerminal,
 );
 app.component('VIcon', OhVueIcon);
 

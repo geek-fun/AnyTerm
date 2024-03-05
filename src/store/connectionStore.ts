@@ -115,8 +115,6 @@ export const useConnectionStore = defineStore('connectionStore', {
       const reqPath = buildPath(index, path);
       const body = qdsl ? JSON.parse(qdsl) : undefined;
 
-      // eslint-disable-next-line no-console
-      console.log('before req', { index, qdsl, method, path });
       const dispatch: { [method: string]: () => Promise<unknown> } = {
         POST: async () => client.post(reqPath, undefined, body),
         PUT: async () => client.put(reqPath, undefined, body),

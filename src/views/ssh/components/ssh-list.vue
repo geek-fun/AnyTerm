@@ -44,9 +44,9 @@ const message = useMessage();
 const lang = useLang();
 
 const options = reactive([
-  { key: 1, label: lang.t('connection.operations.connect') },
-  { key: 2, label: lang.t('connection.operations.edit') },
-  { key: 3, label: lang.t('connection.operations.remove') },
+  { key: 1, label: lang.t('ssh.operations.connect') },
+  { key: 2, label: lang.t('ssh.operations.edit') },
+  { key: 3, label: lang.t('ssh.operations.remove') },
 ]);
 const connectionStore = useConnectionStore();
 const { fetchConnections, removeConnection, establishConnection } = connectionStore;

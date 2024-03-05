@@ -11,15 +11,15 @@ const router = createRouter({
         keepAlive: false,
       },
       component: () => import('../layout/index.vue'),
-      redirect: '/connect',
+      redirect: '/ssh',
       children: [
         {
-          name: 'Connect',
-          path: '/connect',
+          name: 'SSH',
+          path: '/ssh',
           meta: {
             keepAlive: false,
           },
-          component: () => import('../views/connect/index.vue'),
+          component: () => import('../views/./ssh/index.vue'),
         },
         {
           name: 'Secret',

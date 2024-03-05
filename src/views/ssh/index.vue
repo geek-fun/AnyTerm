@@ -1,31 +1,31 @@
 <template>
-  <div class="connect-container">
-    <div v-if="isPannelOpen" class="connect-list">
-      <div class="add-connect" @click="addConnect">
+  <div class="ssh-container">
+    <div v-if="isPannelOpen" class="ssh-list">
+      <div class="add-ssh" @click="addSsh">
         <v-icon name="md-add" />
-        <span>{{ $t('connection.new') }}</span>
+        <span>{{ $t('ssh.new') }}</span>
       </div>
-      <connect-list @edit-connect="editConnectHandler" />
+      <ssh-list @edit-connect="editSshHandler" />
     </div>
-    <div class="connect-body">
+    <div class="ssh-body">
       <div class="table-select">
-        <collection-selector />
+        <ssh-selector />
       </div>
       <div class="editor-container"></div>
     </div>
   </div>
-  <connect-modal ref="connectModalRef" />
+  <ssh-modal ref="sshModalRef" />
 </template>
 
 <script setup lang="ts">
-import ConnectModal from './components/connect-dialog.vue';
-import connectList from './components/connect-list.vue';
-import collectionSelector from './components/collection-selector.vue';
+import sshModal from './components/ssh-dialog.vue';
+import sshList from './components/ssh-list.vue';
+import sshSelector from './components/ssh-selector.vue';
 import { useAppStore } from '../../store';
 
 const appStore = useAppStore();
 // DOM
-const connectModalRef = ref();
+const sshModalRef = ref();
 
 const isPannelOpen = computed(() => {
   return appStore.connectPannel;
@@ -36,24 +36,24 @@ onMounted(() => {
     appStore.setConnectPannel();
   }
 });
-const addConnect = () => connectModalRef.value.showMedal();
+const addSsh = () => sshModalRef.value.showMedal();
 
-const editConnectHandler = (row: object) => {
-  connectModalRef.value.showMedal(row);
+const editSshHandler = (row: object) => {
+  sshModalRef.value.showMedal(row);
 };
 </script>
 
 <style lang="scss" scoped>
-.connect-container {
+.ssh-container {
   height: 100%;
   width: 100%;
   display: flex;
-  .connect-list {
+  .ssh-list {
     width: 200px;
     border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    .add-connect {
+    .add-ssh {
       height: 30px;
       margin: 10px;
       display: flex;
@@ -69,7 +69,7 @@ const editConnectHandler = (row: object) => {
       }
     }
   }
-  .connect-body {
+  .ssh-body {
     flex: 1;
     width: 0;
     height: 100%;

@@ -23,8 +23,6 @@ const { secrets } = toRefs(secretStore);
 const editKeyDialogRef = ref();
 const editSecret = (secret: Secret) => {
   editKeyDialogRef.value.showMedal(secret);
-  // eslint-disable-next-line no-console
-  console.log(secret);
 };
 </script>
 

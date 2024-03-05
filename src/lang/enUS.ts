@@ -1,6 +1,6 @@
 export const enUS = {
   aside: {
-    connect: 'Connect',
+    ssh: 'SSH Connect',
     file: 'File',
     history: 'History',
     github: 'GitHub',
@@ -17,17 +17,17 @@ export const enUS = {
     dark: 'Dark Theme',
     light: 'Light Theme',
   },
-  connection: {
-    new: 'New connection',
-    test: 'Test connection',
+  ssh: {
+    new: 'New SSH',
+    test: 'Test SSH',
     name: 'Name',
     host: 'Host',
     port: 'Port',
     username: 'Username',
     password: 'Password',
     queryParameters: 'query parameters',
-    add: 'Add connection',
-    edit: 'Edit connection',
+    add: 'Add SSH',
+    edit: 'Edit SSH',
     testSuccess: 'connect success',
     formValidation: {
       nameRequired: 'Name is required',

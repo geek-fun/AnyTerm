@@ -24,59 +24,28 @@
         >
           <n-grid cols="8" item-responsive responsive="screen" x-gap="10" y-gap="10">
             <n-grid-item span="8">
-              <n-form-item :label="$t('connection.name')" path="name">
-                <n-input
-                  v-model:value="formData.name"
-                  clearable
-                  :placeholder="$t('connection.name')"
-                />
+              <n-form-item :label="$t('ssh.name')" path="name">
+                <n-input v-model:value="formData.name" clearable :placeholder="$t('ssh.name')" />
               </n-form-item>
             </n-grid-item>
             <n-grid-item span="5">
-              <n-form-item :label="$t('connection.host')" path="host">
-                <n-input
-                  v-model:value="formData.host"
-                  clearable
-                  :placeholder="$t('connection.host')"
-                />
+              <n-form-item :label="$t('ssh.host')" path="host">
+                <n-input v-model:value="formData.host" clearable :placeholder="$t('ssh.host')" />
               </n-form-item>
             </n-grid-item>
             <n-grid-item span="3">
-              <n-form-item :label="$t('connection.port')" path="port">
+              <n-form-item :label="$t('ssh.port')" path="port">
                 <n-input-number
                   v-model:value="formData.port"
                   clearable
                   :show-button="false"
-                  :placeholder="$t('connection.port')"
+                  :placeholder="$t('ssh.port')"
                 />
               </n-form-item>
             </n-grid-item>
             <n-grid-item span="8">
-              <n-form-item :label="$t('connection.username')" path="username">
-                <n-input
-                  v-model:value="formData.username"
-                  clearable
-                  :placeholder="$t('connection.username')"
-                />
-              </n-form-item>
-            </n-grid-item>
-            <n-grid-item span="8">
-              <n-form-item :label="$t('connection.password')" path="password">
-                <n-input
-                  v-model:value="formData.password"
-                  type="password"
-                  show-password-on="mousedown"
-                  :placeholder="$t('connection.password')"
-                />
-              </n-form-item>
-            </n-grid-item>
-            <n-grid-item span="8">
-              <n-form-item :label="$t('connection.queryParameters')" path="queryParameters">
-                <n-input
-                  v-model:value="formData.queryParameters"
-                  clearable
-                  :placeholder="$t('connection.queryParameters')"
-                />
+              <n-form-item :label="$t('ssh.port')" path="port">
+                <n-select v-model:value="selectedSecret" :options="options" />
               </n-form-item>
             </n-grid-item>
           </n-grid>
@@ -91,7 +60,7 @@
               :disabled="!validationPassed"
               @click="testConnect"
             >
-              {{ $t('connection.test') }}
+              {{ $t('ssh.test') }}
             </n-button>
           </div>
           <div class="right">
@@ -113,17 +82,23 @@
 
 <script setup lang="ts">
 import { CustomError } from '../../../common';
-import { Connection, useConnectionStore } from '../../../store';
+import { Connection, useConnectionStore, useSecretStore } from '../../../store';
 import { useLang } from '../../../lang';
 import { FormValidationError } from 'naive-ui';
+import { storeToRefs } from 'pinia';
 
 const { testConnection, saveConnection } = useConnectionStore();
 const lang = useLang();
 // DOM
 const connectFormRef = ref();
 
+const { secrets } = storeToRefs(useSecretStore());
+
+const options = computed(() => secrets.value.map(({ name, id }) => ({ label: name, value: id })));
+
+const selectedSecret = ref('');
 const showModal = ref(false);
-const modalTitle = ref(lang.t('connection.add'));
+const modalTitle = ref(lang.t('ssh.add'));
 const testLoading = ref(false);
 const saveLoading = ref(false);
 const defaultFormData = {
@@ -139,21 +114,21 @@ const formRules = reactive({
   name: [
     {
       required: true,
-      renderMessage: () => lang.t('connection.formValidation.nameRequired'),
+      renderMessage: () => lang.t('ssh.formValidation.nameRequired'),
       trigger: ['input', 'blur'],
     },
   ],
   host: [
     {
       required: true,
-      renderMessage: () => lang.t('connection.formValidation.hostRequired'),
+      renderMessage: () => lang.t('ssh.formValidation.hostRequired'),
       trigger: ['input', 'blur'],
     },
   ],
   port: [
     {
       required: true,
-      renderMessage: () => lang.t('connection.formValidation.portRequired'),
+      renderMessage: () => lang.t('ssh.formValidation.portRequired'),
       trigger: ['input', 'blur'],
     },
   ],
@@ -162,14 +137,14 @@ const message = useMessage();
 
 const cleanUp = () => {
   formData.value = defaultFormData;
-  modalTitle.value = lang.t('connection.add');
+  modalTitle.value = lang.t('ssh.add');
 };
 const showMedal = (con: Connection | null) => {
   cleanUp();
   showModal.value = true;
   if (con) {
     formData.value = con;
-    modalTitle.value = lang.t('connection.edit');
+    modalTitle.value = lang.t('ssh.edit');
   }
 };
 
@@ -191,7 +166,7 @@ const testConnect = async (event: MouseEvent) => {
   testLoading.value = !testLoading.value;
   try {
     await testConnection({ ...formData.value });
-    message.success(lang.t('connection.testSuccess'));
+    message.success(lang.t('ssh.testSuccess'));
   } catch (e) {
     const error = e as CustomError;
     message.error(`status: ${error.status}, details: ${error.details}`, {

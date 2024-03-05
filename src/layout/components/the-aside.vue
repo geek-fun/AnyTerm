@@ -48,10 +48,10 @@ const appStore = useAppStore();
 
 const mainNavList = ref([
   {
-    id: 'connect',
-    path: '/connect',
-    name: 'connect',
-    icon: 'bi-hdd-stack-fill',
+    id: 'ssh',
+    path: '/ssh',
+    name: 'ssh',
+    icon: 'fa-terminal',
     isLink: false,
   },
   {
