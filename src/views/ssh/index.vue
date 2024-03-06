@@ -11,7 +11,9 @@
       <div class="table-select">
         <ssh-selector />
       </div>
-      <div class="editor-container"></div>
+      <div class="editor-container">
+        <ssh-terminal />
+      </div>
     </div>
   </div>
   <ssh-modal ref="sshModalRef" />
@@ -21,6 +23,7 @@
 import sshModal from './components/ssh-dialog.vue';
 import sshList from './components/ssh-list.vue';
 import sshSelector from './components/ssh-selector.vue';
+import sshTerminal from './components/ssh-terminal.vue';
 import { useAppStore } from '../../store';
 
 const appStore = useAppStore();

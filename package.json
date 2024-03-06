@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^1.5.2",
+    "@xterm/xterm": "^5.4.0",
     "oh-vue-icons": "^1.0.0-rc3",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
@@ -24,7 +25,8 @@
     "ulidx": "^2.3.0",
     "vue": "^3.3.4",
     "vue-i18n": "^9.9.0",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "xterm-addon-fit": "^0.8.0"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.5.8",
