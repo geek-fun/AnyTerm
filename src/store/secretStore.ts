@@ -15,17 +15,18 @@ export type Secret = {
   password?: string;
 };
 export const useSecretStore = defineStore('secretStore', {
-  state(): {
+  state: (): {
     secrets: Secret[];
-  } {
+  } => {
     return {
       secrets: [],
     };
   },
+  persist: true,
   getters: {},
   actions: {
     async loadSecrets() {
-      const secrets = (await secretClient.getSecrets()) || [];
+      const secrets = (await secretClient.getSecrets()) || this.secrets;
       this.secrets = secrets as Secret[];
     },
     async saveSecret(secret: Secret) {
