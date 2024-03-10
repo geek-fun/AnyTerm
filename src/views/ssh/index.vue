@@ -1,18 +1,26 @@
 <template>
   <n-tabs
-    v-model:value="valueRef"
+    v-model:value="currentPanelName"
     type="card"
     :addable="addableRef"
     :closable="closableRef"
-    tab-style="min-width: 80px;"
+    class="ssh-tab-container"
     @close="handleClose"
     @add="handleAdd"
   >
-    <n-tab-pane v-for="panel in panelsRef" :key="panel" :name="panel">
-      <div class="ssh-list">
-        <ssh-terminal v-if="terminalRef" :connect-ref="connectRef" />
-        <ssh-list v-else @edit-connect="editSshHandler" @establish-connect="establishSshHandler" />
-      </div>
+    <n-tab-pane
+      v-for="panel in panelsRef"
+      :key="panel.id"
+      :name="panel.name"
+      class="tab-pane-container"
+    >
+      <ssh-terminal v-if="panel.terminal" :connect-ref="panel.terminal" />
+      <ssh-list
+        v-else
+        class="ssh-list"
+        @edit-connect="editSshHandler"
+        @establish-connect="event => establishSshHandler(event, panel)"
+      />
     </n-tab-pane>
   </n-tabs>
   <ssh-float-menu @add-ssh="addSsh" />
@@ -25,27 +33,45 @@ import sshList from './components/ssh-list.vue';
 import sshTerminal from './components/ssh-terminal.vue';
 import SshFloatMenu from './components/ssh-float-menu.vue';
 import { Connection } from '../../store';
-
+type Panel = {
+  id: number;
+  name: string;
+  terminal?: Connection;
+};
 // DOM
 const sshModalRef = ref();
 
-const terminalRef = ref(false);
-const connectRef = ref({});
-const addSsh = () => sshModalRef.value.showMedal();
+const panelsRef = ref<Array<Panel>>([{ id: 0, name: 'home' }]);
 
+const addSsh = () => sshModalRef.value.showMedal();
 const editSshHandler = (row: object) => {
   sshModalRef.value.showMedal(row);
 };
-const establishSshHandler = (row: Connection) => {
+const establishSshHandler = (row: Connection, panel: Panel) => {
   // eslint-disable-next-line no-console
   console.log('establish emit', row);
-  connectRef.value = row;
-  terminalRef.value = true;
+  const exists = panelsRef.value.filter(panel => panel.terminal?.id === row.id);
+  if (!exists) {
+    if (panel.id === 0) {
+      panelsRef.value.push({ id: panelsRef.value.length + 1, name: row.name, terminal: row });
+    } else {
+      const panelIndex = panelsRef.value.findIndex(({ id }) => id === panel.id);
+      panelsRef.value[panelIndex] = { id: panel.id, name: row.name, terminal: row };
+    }
+    currentPanelName.value = row.name;
+  } else {
+    const name = `${row.name}-${exists.length}`;
+    if (panel.id === 0) {
+      panelsRef.value.push({ id: panelsRef.value.length + 1, name, terminal: row });
+    } else {
+      const panelIndex = panelsRef.value.findIndex(({ id }) => id === panel.id);
+      panelsRef.value[panelIndex] = { id: panel.id, name, terminal: row };
+    }
+    currentPanelName.value = name;
+  }
 };
 
-const valueRef = ref('home');
-const panelsRef = ref(['home']);
-
+const currentPanelName = ref('home');
 const addableRef = computed(() => {
   return {
     disabled: panelsRef.value.length >= 10,
@@ -56,58 +82,33 @@ const closableRef = computed(() => {
   return panelsRef.value.length > 1;
 });
 const handleAdd = () => {
-  const newValue = `${panelsRef.value.length + 1}`;
-  panelsRef.value.push(newValue);
-  valueRef.value = newValue;
+  const exists = panelsRef.value.filter(panel => panel.name.startsWith('SSH List'));
+  let name = 'SSH List';
+  if (exists.length) {
+    name = `SSH List-${exists.length}`;
+  }
+  panelsRef.value.push({ id: panelsRef.value.length, name });
+  currentPanelName.value = name;
 };
 
 const handleClose = (name: string) => {
   const { value: panels } = panelsRef;
-  const nameIndex = panels.findIndex(panelName => panelName === name);
+  const nameIndex = panels.findIndex(({ name: panelName }) => panelName === name);
   if (!~nameIndex) return;
   panels.splice(nameIndex, 1);
-  if (name === valueRef.value) {
-    valueRef.value = panels[Math.min(nameIndex, panels.length - 1)];
+  if (name === currentPanelName.value) {
+    currentPanelName.value = panels[Math.min(nameIndex, panels.length - 1)].name;
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.ssh-container {
-  height: 100%;
+.ssh-tab-container {
   width: 100%;
-  display: flex;
-  .ssh-list {
-    width: 200px;
-    border-right: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    .add-ssh {
-      height: 30px;
-      margin: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 5px;
-      color: #fff;
-      background-color: var(--theme-color);
-      transition: 0.3s;
-      cursor: pointer;
-      &:hover {
-        background-color: var(--theme-color-hover);
-      }
-    }
-  }
-  .ssh-body {
-    flex: 1;
-    width: 0;
+  height: 99%;
+  .tab-pane-container {
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    .editor-container {
-      flex: 1;
-      height: 100%;
-    }
+    width: 100%;
   }
 }
 </style>

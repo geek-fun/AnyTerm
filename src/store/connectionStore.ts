@@ -9,7 +9,7 @@ export type Connection = {
   host: string;
   port: number;
   username: string;
-  secretId: number;
+  secretId: string;
 };
 export type ConnectionIndex = {
   health: string;

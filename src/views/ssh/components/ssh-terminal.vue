@@ -11,7 +11,10 @@ import { defineProps } from 'vue';
 import { Connection, useSecretStore } from '../../../store';
 
 const props = defineProps({
-  connectRef: Object as Connection,
+  connectRef: {
+    type: Object as () => Connection,
+    required: true,
+  },
 });
 
 const secretStore = useSecretStore();
