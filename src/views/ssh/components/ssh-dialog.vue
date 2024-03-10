@@ -106,7 +106,7 @@ const defaultFormData = {
   host: '',
   port: 22,
   username: '',
-  secretId: -1,
+  secretId: '',
 };
 const formData = ref<Connection>({ ...defaultFormData });
 
