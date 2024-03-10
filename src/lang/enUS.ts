@@ -25,6 +25,7 @@ export const enUS = {
     port: 'Port',
     username: 'Username',
     password: 'Password',
+    secret: 'Secret',
     queryParameters: 'query parameters',
     add: 'Add SSH',
     edit: 'Edit SSH',
@@ -33,6 +34,7 @@ export const enUS = {
       nameRequired: 'Name is required',
       hostRequired: 'Host is required',
       portRequired: 'Port is required',
+      secretRequired: 'Secret is required',
     },
     operations: {
       connect: 'Connect',

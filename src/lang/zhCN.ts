@@ -33,6 +33,7 @@ export const zhCN = {
       nameRequired: '请输入连接名称',
       hostRequired: '请输入主机地址',
       portRequired: '请输入端口号',
+      secretRequired: '请选择密钥',
     },
     operations: {
       connect: '连接',
@@ -63,6 +64,7 @@ export const zhCN = {
     pubKey: '公钥',
     username: '用户名',
     password: '密码',
+    secret: '密钥',
     verify: '验证',
     edit: '修改密钥',
     formValidation: {

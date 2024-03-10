@@ -44,8 +44,8 @@
               </n-form-item>
             </n-grid-item>
             <n-grid-item span="8">
-              <n-form-item :label="$t('ssh.port')" path="port">
-                <n-select v-model:value="selectedSecret" :options="options" />
+              <n-form-item :label="$t('ssh.secret')" path="secret">
+                <n-select v-model:value="formData.secret" :options="options" />
               </n-form-item>
             </n-grid-item>
           </n-grid>
@@ -87,7 +87,7 @@ import { useLang } from '../../../lang';
 import { FormValidationError } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 
-const { testConnection, saveConnection } = useConnectionStore();
+const { testConnection, saveConnection, fetchConnections } = useConnectionStore();
 const lang = useLang();
 // DOM
 const connectFormRef = ref();
@@ -96,20 +96,20 @@ const { secrets } = storeToRefs(useSecretStore());
 
 const options = computed(() => secrets.value.map(({ name, id }) => ({ label: name, value: id })));
 
-const selectedSecret = ref('');
 const showModal = ref(false);
 const modalTitle = ref(lang.t('ssh.add'));
 const testLoading = ref(false);
 const saveLoading = ref(false);
+
 const defaultFormData = {
   name: '',
   host: '',
-  port: 9200,
+  port: 22,
   username: '',
-  password: '',
-  queryParameters: '',
+  secretId: -1,
 };
-const formData = ref<Connection>(defaultFormData);
+const formData = ref<Connection>({ ...defaultFormData });
+
 const formRules = reactive({
   name: [
     {
@@ -129,6 +129,13 @@ const formRules = reactive({
     {
       required: true,
       renderMessage: () => lang.t('ssh.formValidation.portRequired'),
+      trigger: ['input', 'blur'],
+    },
+  ],
+  secret: [
+    {
+      required: true,
+      renderMessage: () => lang.t('ssh.formValidation.secretRequired'),
       trigger: ['input', 'blur'],
     },
   ],
@@ -188,6 +195,8 @@ const saveConnect = async (event: MouseEvent) => {
 };
 
 defineExpose({ showMedal });
+
+fetchConnections();
 </script>
 <style lang="scss">
 .add-connect-modal-card {

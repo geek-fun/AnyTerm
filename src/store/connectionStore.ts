@@ -1,14 +1,15 @@
 import { defineStore } from 'pinia';
 import { loadHttpClient } from '../common/httpClient';
+import { loadConnectionDataSource } from '../dataSource';
+import { ulid } from 'ulidx';
 
 export type Connection = {
-  id?: number;
+  id?: string;
   name: string;
   host: string;
   port: number;
-  username?: string;
-  password?: string;
-  queryParameters?: string;
+  username: string;
+  secretId: number;
 };
 export type ConnectionIndex = {
   health: string;
@@ -33,25 +34,19 @@ type Established =
   | (Connection & { indices: Array<ConnectionIndex>; activeIndex?: ConnectionIndex })
   | null;
 
-const buildPath = (index: string | undefined, path: string | undefined) => {
-  return index &&
-    !['_nodes', '_cluster', '_cat', '_bulk', '_aliases', '_analyze'].includes(
-      path?.split('/')[0] ?? '',
-    )
-    ? `/${index}/${path}`
-    : `/${path}`;
-};
+const connectionDataSource = loadConnectionDataSource();
 
 export const useConnectionStore = defineStore('connectionStore', {
-  state(): {
+  state: (): {
     connections: Connection[];
     established: Established;
-  } {
+  } => {
     return {
       connections: [],
       established: null,
     };
   },
+  persist: true,
   getters: {
     establishedIndexNames(state) {
       return state.established?.indices.map(({ index }) => index) ?? [];
@@ -59,20 +54,23 @@ export const useConnectionStore = defineStore('connectionStore', {
   },
   actions: {
     async fetchConnections() {
-      this.connections = [];
+      const connections = (await connectionDataSource.getConnections()) || this.connections;
+      this.connections = connections as Connection[];
     },
     async testConnection(con: Connection) {
       const client = loadHttpClient(con);
 
       return await client.get(undefined, 'format=json');
     },
-    saveConnection(connection: Connection) {
-      const index = this.connections.findIndex(item => item.id === connection.id);
-      if (index >= 0) {
-        this.connections[index] = connection;
+    async saveConnection(connection: Connection) {
+      if (!connection.id) {
+        connection.id = ulid();
+        this.connections.push(connection);
       } else {
-        this.connections.push({ ...connection, id: this.connections.length + 1 });
+        const index = this.connections.findIndex(({ id }) => id === connection.id);
+        this.connections[index] = connection;
       }
+      await connectionDataSource.saveConnection(connection);
     },
     removeConnection(connection: Connection) {
       this.connections = this.connections.filter(item => item.id !== connection.id);
@@ -97,32 +95,6 @@ export const useConnectionStore = defineStore('connectionStore', {
         ...this.established,
         activeIndex: this.established?.indices.find(({ index }) => index === indexName),
       } as Established;
-    },
-    async searchQDSL({
-      method,
-      path,
-      index,
-      qdsl,
-    }: {
-      method: string;
-      path: string;
-      index?: string;
-      qdsl?: string;
-    }) {
-      if (!this.established) throw new Error('no connection established');
-      const client = loadHttpClient(this.established);
-
-      const reqPath = buildPath(index, path);
-      const body = qdsl ? JSON.parse(qdsl) : undefined;
-
-      const dispatch: { [method: string]: () => Promise<unknown> } = {
-        POST: async () => client.post(reqPath, undefined, body),
-        PUT: async () => client.put(reqPath, undefined, body),
-        DELETE: async () => client.delete(reqPath, undefined, body),
-        GET: async () =>
-          body ? client.post(reqPath, undefined, body) : client.get(reqPath, 'format=json'),
-      };
-      return dispatch[method]();
     },
   },
 });
