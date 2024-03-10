@@ -45,7 +45,7 @@
             </n-grid-item>
             <n-grid-item span="8">
               <n-form-item :label="$t('ssh.secret')" path="secret">
-                <n-select v-model:value="formData.secret" :options="options" />
+                <n-select v-model:value="formData.secretId" :options="options" />
               </n-form-item>
             </n-grid-item>
           </n-grid>
@@ -132,7 +132,7 @@ const formRules = reactive({
       trigger: ['input', 'blur'],
     },
   ],
-  secret: [
+  secretId: [
     {
       required: true,
       renderMessage: () => lang.t('ssh.formValidation.secretRequired'),

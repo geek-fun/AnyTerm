@@ -7,6 +7,15 @@ import { invoke } from '@tauri-apps/api/tauri';
 import '@xterm/xterm/css/xterm.css';
 import { Terminal } from '@xterm/xterm';
 import { FitAddon } from 'xterm-addon-fit';
+import { defineProps } from 'vue';
+import { Connection, useSecretStore } from '../../../store';
+
+const props = defineProps({
+  connectRef: Object as Connection,
+});
+
+const secretStore = useSecretStore();
+const { getSecret, loadSecrets } = secretStore;
 
 const terminal = new Terminal({
   cursorBlink: true, // 光标闪烁
@@ -54,7 +63,8 @@ const exec = (command: string) => {
     .catch(e => terminal.writeln(e));
 };
 
-onMounted(() => {
+onMounted(async () => {
+  await loadSecrets();
   terminal.loadAddon(fitAddon);
   // Attach the terminal to the container
   terminal.open(terminalContainer.value);
@@ -68,14 +78,10 @@ onMounted(() => {
   //   terminal.write(data);
   //   console.log('terminal on data', data);
   // });
-
+  const { host, port, secretId } = props.connectRef;
+  const secret = await getSecret(secretId);
   // Invoke the command
-  invoke('connect_ssh', {
-    host: 'xxx',
-    port: 22,
-    username: 'xxxx',
-    password: 'xxxx',
-  })
+  invoke('connect_ssh', { host, port, username: secret?.username, password: secret?.password })
     // eslint-disable-next-line no-console
     .then(res => console.log(`ssh connect res: ${res}`))
     // eslint-disable-next-line no-console

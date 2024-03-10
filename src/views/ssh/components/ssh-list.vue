@@ -20,7 +20,6 @@
         </div>
       </template>
     </n-card>
-    <new-key-dialog ref="editKeyDialogRef" />
   </div>
 </template>
 
@@ -28,10 +27,8 @@
 import { storeToRefs } from 'pinia';
 import { useLang } from '../../../lang';
 import { Connection, useConnectionStore } from '../../../store';
-import { CustomError } from '../../../common';
-import NewKeyDialog from '../../secret/components/new-key-dialog.vue';
 
-const emits = defineEmits(['edit-connect']);
+const emits = defineEmits(['edit-connect', 'establish-connect']);
 
 const dialog = useDialog();
 const message = useMessage();
@@ -43,7 +40,7 @@ const options = reactive([
   { key: 3, label: lang.t('ssh.operations.remove') },
 ]);
 const connectionStore = useConnectionStore();
-const { fetchConnections, removeConnection, establishConnection } = connectionStore;
+const { fetchConnections, removeConnection } = connectionStore;
 const { connections } = storeToRefs(connectionStore);
 fetchConnections();
 
@@ -62,17 +59,7 @@ const handleSelect = (key: number, connection: Connection) => {
 };
 
 const establishConnect = async (connection: Connection) => {
-  try {
-    await establishConnection(connection);
-  } catch (err) {
-    const error = err as CustomError;
-    message.error(`status: ${error.status}, details: ${error.details}`, {
-      closable: true,
-      keepAliveOnHover: true,
-      duration: 36000000,
-    });
-    // debug('connect error');
-  }
+  emits('establish-connect', connection);
 };
 
 // edit connect info

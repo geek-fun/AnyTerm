@@ -10,8 +10,8 @@
   >
     <n-tab-pane v-for="panel in panelsRef" :key="panel" :name="panel">
       <div class="ssh-list">
-        <ssh-terminal v-if="terminalRef" />
-        <ssh-list v-else @edit-connect="editSshHandler" />
+        <ssh-terminal v-if="terminalRef" :connect-ref="connectRef" />
+        <ssh-list v-else @edit-connect="editSshHandler" @establish-connect="establishSshHandler" />
       </div>
     </n-tab-pane>
   </n-tabs>
@@ -24,20 +24,27 @@ import sshModal from './components/ssh-dialog.vue';
 import sshList from './components/ssh-list.vue';
 import sshTerminal from './components/ssh-terminal.vue';
 import SshFloatMenu from './components/ssh-float-menu.vue';
+import { Connection } from '../../store';
 
 // DOM
 const sshModalRef = ref();
 
 const terminalRef = ref(false);
-
+const connectRef = ref({});
 const addSsh = () => sshModalRef.value.showMedal();
 
 const editSshHandler = (row: object) => {
   sshModalRef.value.showMedal(row);
 };
+const establishSshHandler = (row: Connection) => {
+  // eslint-disable-next-line no-console
+  console.log('establish emit', row);
+  connectRef.value = row;
+  terminalRef.value = true;
+};
 
 const valueRef = ref('home');
-const panelsRef = ref(['home', '2', '3', '4', '5']);
+const panelsRef = ref(['home']);
 
 const addableRef = computed(() => {
   return {

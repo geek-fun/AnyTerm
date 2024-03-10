@@ -61,7 +61,7 @@
         <n-tab-pane :name="SecretType.PASSWORD" tab="Username/Password">
           <n-grid cols="8" item-responsive responsive="screen" x-gap="10" y-gap="10">
             <n-grid-item span="8">
-              <n-form-item :label="$t('secret.name')" path="username">
+              <n-form-item :label="$t('secret.username')" path="username">
                 <n-input
                   v-model:value="formData.username"
                   clearable

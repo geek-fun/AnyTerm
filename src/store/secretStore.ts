@@ -16,6 +16,7 @@ export type Secret = {
   username?: string;
   password?: string;
 };
+
 export const useSecretStore = defineStore('secretStore', {
   state: (): {
     secrets: Secret[];
@@ -45,6 +46,9 @@ export const useSecretStore = defineStore('secretStore', {
       const index = this.secrets.findIndex(s => s.id === secret.id);
       this.secrets.splice(index, 1);
       await secretDataSource.removeSecret(secret);
+    },
+    async getSecret(secretId: string) {
+      return this.secrets.find(({ id }) => id === secretId);
     },
   },
 });
