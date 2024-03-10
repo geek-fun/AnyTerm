@@ -51,24 +51,16 @@ const establishSshHandler = (row: Connection, panel: Panel) => {
   // eslint-disable-next-line no-console
   console.log('establish emit', row);
   const exists = panelsRef.value.filter(panel => panel.terminal?.id === row.id);
-  if (!exists) {
-    if (panel.id === 0) {
-      panelsRef.value.push({ id: panelsRef.value.length + 1, name: row.name, terminal: row });
-    } else {
-      const panelIndex = panelsRef.value.findIndex(({ id }) => id === panel.id);
-      panelsRef.value[panelIndex] = { id: panel.id, name: row.name, terminal: row };
-    }
-    currentPanelName.value = row.name;
+  const panelIndex = panelsRef.value.findIndex(({ id }) => id === panel.id);
+  const panelName = !exists.length ? row.name : `${row.name}-${exists.length}`;
+
+  if (panel.id === 0) {
+    panelsRef.value.push({ id: panelsRef.value.length + 1, name: panelName, terminal: row });
   } else {
-    const name = `${row.name}-${exists.length}`;
-    if (panel.id === 0) {
-      panelsRef.value.push({ id: panelsRef.value.length + 1, name, terminal: row });
-    } else {
-      const panelIndex = panelsRef.value.findIndex(({ id }) => id === panel.id);
-      panelsRef.value[panelIndex] = { id: panel.id, name, terminal: row };
-    }
-    currentPanelName.value = name;
+    panelsRef.value[panelIndex] = { id: panel.id, name: panelName, terminal: row };
   }
+
+  currentPanelName.value = panelName;
 };
 
 const currentPanelName = ref('home');
@@ -83,10 +75,8 @@ const closableRef = computed(() => {
 });
 const handleAdd = () => {
   const exists = panelsRef.value.filter(panel => panel.name.startsWith('SSH List'));
-  let name = 'SSH List';
-  if (exists.length) {
-    name = `SSH List-${exists.length}`;
-  }
+  const name = !exists.length ? 'SSH List' : `SSH List-${exists.length}`;
+
   panelsRef.value.push({ id: panelsRef.value.length, name });
   currentPanelName.value = name;
 };
