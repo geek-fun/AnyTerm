@@ -24,17 +24,15 @@ const terminal = new Terminal({
   cursorBlink: true, // 光标闪烁
   cursorStyle: 'bar',
   cursorInactiveStyle: 'underline', // 光标样式
+  convertEol: true, // 回车换行
 });
 const fitAddon = new FitAddon();
 
 const terminalContainer = ref();
 
-const enter = () => terminal.write('\r\n');
-const backspace = () => terminal.write('\b \b');
-
-const keyActions: { [key: string]: (terminal: Terminal) => void } = {
-  enter,
-  backspace,
+const sequenceMap: { [key: string]: string } = {
+  enter: '\r\n',
+  backspace: '\b \b',
 };
 const commands: Array<string> = [];
 let command = '';
@@ -42,14 +40,16 @@ let command = '';
 terminal.onKey(e => {
   const code = e.domEvent.code.toLowerCase();
 
-  const keyAction = keyActions[code];
+  const sequence = sequenceMap[code];
 
-  if (keyAction) {
-    keyAction(terminal);
-    exec(command);
+  if (code === 'enter') {
     commands.push(command);
+    terminal.write(sequence);
+    exec(command);
     command = '';
-    return;
+  } else if (code === 'backspace') {
+    command = command.slice(0, -1);
+    terminal.write(sequence);
   } else {
     terminal.write(e.key);
     command += e.key;
@@ -62,8 +62,12 @@ const exec = (command: string) => {
       // eslint-disable-next-line
       console.log(`exec res ${res}`);
       terminal.writeln(res as string);
+      terminal.writeln('');
     })
-    .catch(e => terminal.writeln(e));
+    .catch(e => {
+      terminal.writeln(e);
+      terminal.writeln('');
+    });
 };
 
 onMounted(async () => {
@@ -72,10 +76,10 @@ onMounted(async () => {
   // Attach the terminal to the container
   terminal.open(terminalContainer.value);
   fitAddon.fit();
+  terminal.focus();
 
   // Example: Write text to the terminal
   terminal.write('Welcome to AnyTerm!\r\n');
-
   // Optional: Add terminal handling logic, e.g., for executing commands
   // terminal.onData((data: string) => {
   //   terminal.write(data);
