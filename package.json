@@ -16,7 +16,7 @@
     "test:ci": "jest --runInBand --ci --coverage --coverageReporters json-summary text html lcov"
   },
   "dependencies": {
-    "@tauri-apps/api": "^1.5.2",
+    "@tauri-apps/api": "^1.5.4",
     "@xterm/xterm": "^5.4.0",
     "oh-vue-icons": "^1.0.0-rc3",
     "pinia": "^2.1.7",
