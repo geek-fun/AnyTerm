@@ -1,1 +1,1 @@
-export const isTauri = () => !!window.__TAURI__;
+export { isTauri } from '@tauri-apps/api/core';

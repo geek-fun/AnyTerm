@@ -50,9 +50,6 @@ export const enUS = {
     cancel: 'Cancel',
     removeSuccess: 'Connection removed successfully',
   },
-  editor: {
-    establishedRequired: 'Select a DB instance before execute actions',
-  },
   history: {
     empty: 'No history yet',
     emptyDesc: 'History of queries will appear here as you execute Scans and Queries',
