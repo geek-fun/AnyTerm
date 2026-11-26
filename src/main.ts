@@ -7,12 +7,8 @@ import { addIcons, OhVueIcon } from 'oh-vue-icons';
 import './assets/styles/normalize.css';
 import './assets/styles/theme.scss';
 import {
-  MdAdd,
-  RiMore2Fill,
   IoCloseOutline,
   RiFileSearchLine,
-  OiDatabase,
-  BiFolder2Open,
   BiGithub,
   CoSettings,
   FaRegularUserCircle,
@@ -27,13 +23,9 @@ import {
 
 const app = createApp(App);
 addIcons(
-  MdAdd,
-  RiMore2Fill,
   IoCloseOutline,
   BiCheckLg,
   RiFileSearchLine,
-  OiDatabase,
-  BiFolder2Open,
   BiGithub,
   CoSettings,
   FaRegularUserCircle,

@@ -49,9 +49,6 @@ export const zhCN = {
     cancel: '取消',
     removeSuccess: '连接删除成功',
   },
-  editor: {
-    establishedRequired: '请选择执行操作的数据库实例',
-  },
   history: {
     empty: '无历史记录',
     emptyDesc: '执行扫描和查询时，查询历史记录将显示在此处',

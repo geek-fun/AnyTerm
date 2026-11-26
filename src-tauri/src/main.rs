@@ -6,11 +6,6 @@ use tauri::Manager;
 
 static mut CLIENT: Option<Client> = None;
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
 #[tauri::command]
 async fn connect_ssh(
     host: String,
@@ -82,17 +77,18 @@ async fn execute_ssh_command(command: String) -> Result<String, String> {
 
 fn main() {
     tauri::Builder::default()
-        .plugin(tauri_plugin_store::Builder::default().build())
+        .plugin(tauri_plugin_store::Builder::new().build())
+        .plugin(tauri_plugin_opener::init())
         .setup(|app| {
             #[cfg(debug_assertions)] // only include this code on debug builds
             {
-                let window = app.get_window("main").unwrap();
+                let window = app.get_webview_window("main").unwrap();
                 window.open_devtools();
                 window.close_devtools();
             }
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![greet, connect_ssh,execute_ssh_command])
+        .invoke_handler(tauri::generate_handler![connect_ssh,execute_ssh_command])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

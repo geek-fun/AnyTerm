@@ -1,4 +1,4 @@
-import { Store } from 'tauri-plugin-store-api';
+import { LazyStore } from '@tauri-apps/plugin-store';
 
-export const secretClient = new Store('.secrets.st');
-export const connectionClient = new Store('.connections.st');
+export const secretClient = new LazyStore('.secrets.st', { autoSave: false });
+export const connectionClient = new LazyStore('.connections.st', { autoSave: false });

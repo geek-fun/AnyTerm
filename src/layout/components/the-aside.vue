@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { open } from '@tauri-apps/api/shell';
+import { openUrl } from '@tauri-apps/plugin-opener';
 import { useAppStore } from '../../store';
 import theAsideIcon from './the-aside-icon.vue';
 
@@ -114,7 +114,7 @@ const isActive = (item: RouteItem) => {
 // nav click handler method
 const navClick = (item: RouteItem) => {
   if (item.isLink && item.id === 'github') {
-    open('https://github.com/geek-fun/AnyTerm');
+    openUrl('https://github.com/geek-fun/AnyTerm');
   } else {
     if (route.path === item.path) {
       appStore.setConnectPannel();
