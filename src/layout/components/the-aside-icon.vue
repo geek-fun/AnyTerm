@@ -8,6 +8,6 @@
 </template>
 <script lang="ts" setup>
 defineProps({
-  popoverContent: String,
+  popoverContent: { type: String, default: '' },
 });
 </script>

@@ -97,7 +97,7 @@ AnyTerm is built with [Tauri v2](https://v2.tauri.org/) (Rust), Vue 3 + TypeScri
 
 ### Prerequisites
 
-- Node.js >= 20
+- Node.js >= 20.19
 - NPM >= 10
 - Rust toolchain (for Tauri)
 
@@ -120,11 +120,9 @@ xcode-select --install
 ```bash
 git clone https://github.com/geek-fun/AnyTerm.git
 cd AnyTerm
-npm install --legacy-peer-deps
+npm install
 npm run tauri dev
 ```
-
-`--legacy-peer-deps` is needed because `@typescript-eslint` v7 only declares support for ESLint 8 while this project uses ESLint 9.
 
 ### Build
 

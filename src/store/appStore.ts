@@ -28,7 +28,7 @@ export const useAppStore = defineStore('app', {
   },
   persist: {
     // 设置为 true 表示在页面刷新时，Pinia 状态仍然会被保存。
-    paths: ['themeType', 'languageType', 'languageName', 'connectPannel'],
+    pick: ['themeType', 'languageType', 'languageName', 'connectPannel'],
     storage: localStorage,
   },
 });
