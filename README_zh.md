@@ -97,7 +97,7 @@ AnyTerm 基于 [Tauri v2](https://v2.tauri.org/)（Rust）、Vue 3 + TypeScript�
 
 ### 环境要求
 
-- Node.js >= 20
+- Node.js >= 20.19
 - NPM >= 10
 - Rust 工具链（用于 Tauri）
 
@@ -120,11 +120,9 @@ xcode-select --install
 ```bash
 git clone https://github.com/geek-fun/AnyTerm.git
 cd AnyTerm
-npm install --legacy-peer-deps
+npm install
 npm run tauri dev
 ```
-
-需要 `--legacy-peer-deps` 是因为 `@typescript-eslint` v7 只声明支持 ESLint 8，而本项目使用的是 ESLint 9。
 
 ### 构建
 

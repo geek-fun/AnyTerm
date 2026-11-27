@@ -31,8 +31,7 @@ export type ConnectionIndex = {
 };
 
 type Established =
-  | (Connection & { indices: Array<ConnectionIndex>; activeIndex?: ConnectionIndex })
-  | null;
+  (Connection & { indices: Array<ConnectionIndex>; activeIndex?: ConnectionIndex }) | null;
 
 const connectionDataSource = loadConnectionDataSource();
 

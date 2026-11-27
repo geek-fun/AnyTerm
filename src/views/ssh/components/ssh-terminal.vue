@@ -7,7 +7,6 @@ import { invoke } from '@tauri-apps/api/core';
 import '@xterm/xterm/css/xterm.css';
 import { Terminal } from '@xterm/xterm';
 import { FitAddon } from 'xterm-addon-fit';
-import { defineProps } from 'vue';
 import { Connection, useSecretStore } from '../../../store';
 
 const props = defineProps({

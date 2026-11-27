@@ -158,7 +158,7 @@ const closeModal = () => {
 const validationPassed = watch(formData.value, async () => {
   try {
     return await secretFormRef.value?.validate((errors: Array<FormValidationError>) => !errors);
-  } catch (e) {
+  } catch {
     return false;
   }
 });
